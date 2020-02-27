@@ -1,0 +1,19 @@
+image: registry.datatraffic.com.br/qlik-ci:v1.0.1
+
+stages:
+  - deploy
+
+deploy-app:
+  stage: deploy
+  script:
+      - cd /mnt/qlik-qvs/$CI_PROJECT_NAME/
+      - rm -rf *.*
+      - rm -rf .git
+      - ls
+      - git init
+      - ssh-keyscan -p 22022 git.datatraffic.com.br >> /root/.ssh/known_hosts # fingerprint de autenticação ssh
+      - git remote add origin ssh://git@git.datatraffic.com.br:22022/antt_qlik_prj/$CI_PROJECT_NAME.git 
+      - git remote -v
+      - git pull origin master
+
+      
